@@ -1,27 +1,29 @@
-version: '3.1'
+version: '2'
 services:
+  db:
+    container_name: orbital_db
+    image: postgres:10
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - orbital-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "$port_db:5432"
   web:
-    image: odoo:14.0
+    container_name: orbital_odoo
+    image: orbital_odoo:12
+    build: ./
     depends_on:
       - db
-    restart: unless-stopped
     ports:
-     - 8069:8069
-    environment:
-     - HOST=db
-     - USER=odoo
-     - PASSWORD=odoo
+      - "$port:8069"
+      - "$chat_port:8072"
     volumes:
-     - /opt/odoo-web-data:/var/lib/odoo
-     - /opt/odoo-config:/etc/odoo
-     - /opt/odoo-addons:/mnt/extra-addons   
-  db:
-    image: postgres:12-alpine
-    restart: unless-stopped
-    environment:
-     - POSTGRES_DB=postgres
-     - POSTGRES_PASSWORD=odoo
-     - POSTGRES_USER=odoo
-     - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-     - /opt/odoo-db-data:/var/lib/postgresql/data/pgdata
+      - orbital-web-data:/var/lib/odoo
+      - ./docker:/etc/odoo/
+      - ./addons:/mnt/extra-addons
+volumes:
+    orbital-web-data:
+    orbital-db-data:
