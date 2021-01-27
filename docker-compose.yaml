@@ -2,7 +2,7 @@ version: '2'
 services:
   db:
     container_name: orbital_db
-    image: postgres:11
+    image: postgres:13
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
@@ -12,7 +12,7 @@ services:
     ports:
       - "$port_db:5432"
   web:
-    container_name: orbital_odoo_14
+    container_name: odoo_14
     image: odoo:14
     build: ./
     depends_on:
