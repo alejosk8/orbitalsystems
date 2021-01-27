@@ -13,7 +13,7 @@ services:
       - "$port_db:5432"
   web:
     container_name: orbital_odoo_14
-    image: orbital_odoo:14
+    image: odoo:14
     build: ./
     depends_on:
       - db
