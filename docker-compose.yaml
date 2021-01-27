@@ -1,29 +1,31 @@
 version: '2'
 services:
   db:
-    container_name: orbitalsystems_db
     image: postgres:13
+    # container_name: postgres13
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=postgres
+    restart: always             # run as a service
     volumes:
-      - epmapat-db-data:/var/lib/postgresql/data/pgdata
-    ports:
-      - "$port_db:5432"
-  web:
-    container_name: orbitalsystems_odoo
-    image: orbitalsystems_odoo:14.0
-    build: ./
+        - ./postgresql:/var/lib/postgresql/data
+
+  odoo14:
+    image: odoo:14
+    # container_name: odoo14
     depends_on:
       - db
     ports:
-      - "$port:8069"
-      - "$chat_port:8072"
+      - "10014:8069"
+    tty: true
+    command: -- --dev=reload
+#    command: odoo scaffold /mnt/extra-addons/custom_module
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
     volumes:
-      - orbitalsystems-web-data:/var/lib/odoo
-      - ./docker:/etc/odoo/
       - ./addons:/mnt/extra-addons
-volumes:
-    orbitalsystems-web-data:
-    orbitalsystems-db-data:
+      - ./etc:/etc/odoo
+    restart: always             # run as a service
