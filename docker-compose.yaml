@@ -2,7 +2,7 @@ version: '2'
 services:
   db:
     container_name: orbital_db
-    image: postgres:10
+    image: postgres:11
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
@@ -12,8 +12,8 @@ services:
     ports:
       - "$port_db:5432"
   web:
-    container_name: orbital_odoo
-    image: orbital_odoo:12
+    container_name: orbital_odoo_14
+    image: orbital_odoo:14
     build: ./
     depends_on:
       - db
@@ -22,7 +22,7 @@ services:
       - "$chat_port:8072"
     volumes:
       - orbital-web-data:/var/lib/odoo
-      - ./docker:/etc/odoo/
+      - ./config:/etc/odoo/
       - ./addons:/mnt/extra-addons
 volumes:
     orbital-web-data:
