@@ -22,8 +22,8 @@ services:
       - "$chat_port:8072"
     volumes:
       - orbital-web-data:/var/lib/odoo
-      - ./config:/etc/odoo/
-      - ./addons:/mnt/extra-addons
+      - ./home/orbitalsystems/config:/etc/odoo/
+      - .//home/orbitalsystems/addons:/mnt/extra-addons
 volumes:
     orbital-web-data:
     orbital-db-data:
