@@ -13,10 +13,12 @@ services:
      - PASSWORD=odoo
     volumes:
      - /opt/odoo-web-data:/var/lib/odoo
-     - /opt/odoo-config:/etc/odoo
-     - /opt/odoo-addons:/mnt/extra-addons   
+     
+     
+      - /opt/config:/etc/odoo
+      - /opt/addons:/mnt/extra-addons
   db:
-    image: postgres:12-alpine
+    image: p/optostgres:12-alpine
     restart: unless-stopped
     environment:
      - POSTGRES_DB=postgres
