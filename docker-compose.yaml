@@ -9,8 +9,8 @@ services:
       - 8069:8069
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons
+      - /config:/etc/odoo
+      - /addons:/mnt/extra-addons
   db:
     container_name: orbital_db
     image: postgres:13
